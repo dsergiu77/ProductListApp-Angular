@@ -6,6 +6,11 @@ import { Component } from '@angular/core';
 })
 export class ProductListComponent {
     pageTitle = 'Product List';
+    imageWidth = 40;
+    imageMargin = 2;
+    showImage = false;
+    listFilter = 'cart';
+
     products: any[];
 
     constructor() {
@@ -64,15 +69,19 @@ export class ProductListComponent {
       ];
     }
 
-  private getProductList(): any[] {
-    const file: File = new File([], '../products.json');
-    const reader: FileReader = new FileReader();
-    let result: any[] = [];
-    reader.onload = function (e) {
-      result =  JSON.parse(reader.result as string);
-    };
-    reader.readAsText(file);
+    toggleImage(): void {
+      this.showImage = !this.showImage;
+    }
 
-    return result;
-  }
+    getProductList(): any[] {
+      const file: File = new File([], '../products.json');
+      const reader: FileReader = new FileReader();
+      let result: any[] = [];
+      reader.onload = function (e) {
+        result =  JSON.parse(reader.result as string);
+      };
+      reader.readAsText(file);
+
+      return result;
+    }
 }
