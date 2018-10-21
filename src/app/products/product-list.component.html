@@ -28,8 +28,8 @@
                         <th>5 Star Rating</th>
                     </tr>
                 </thead>
-                <tbody *ngIf="products && products.length">
-                    <tr *ngFor="let product of products">
+                <tbody *ngIf="filteredProducts && filteredProducts.length">
+                    <tr *ngFor="let product of filteredProducts">
                         <td>
                             <img *ngIf="showImage"
                                 [src]='product.imageUrl'
@@ -38,7 +38,7 @@
                                 [style.margin.px]='imageMargin'/>
                         </td>
                         <td>{{product.productName}}</td>
-                        <td>{{product.productCode}}</td>
+                        <td>{{product.productCode | lowercase | convertToSpaces:"-"}}</td>
                         <td>{{product.releaseDate}}</td>
                         <td>{{product.price | currency:"EUR":"symbol":"1.2-2"}}</td>
                         <td>{{product.starRating}}</td>

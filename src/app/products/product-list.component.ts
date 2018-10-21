@@ -1,17 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Product } from './product';
 
 @Component({
     selector: 'pm-products',
-    templateUrl: './product-list.component.html'
+    templateUrl: './product-list.component.html',
+    styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent {
+export class ProductListComponent implements OnInit, OnDestroy {
     pageTitle = 'Product List';
     imageWidth = 40;
     imageMargin = 2;
     showImage = false;
-    listFilter = 'cart';
 
-    products: any[];
+    products: Product[];
+    filteredProducts: Product[];
+
+    private _listFilter: string;
+    get listFilter() {
+      return this._listFilter;
+    }
+    set listFilter(value) {
+      this._listFilter = value;
+      this.filteredProducts = this.filter(this.listFilter);
+      console.log('Filtered products: ' + this.filteredProducts);
+    }
+
+    private filter(filterBy: string): Product[] {
+      filterBy = !filterBy ? '' : filterBy.toLocaleLowerCase();
+      console.log('Filter criteria: ' + filterBy);
+      return this.products.filter(
+        (p: Product) => p.productName.toLocaleLowerCase().indexOf(filterBy) !== -1
+      );
+    }
 
     constructor() {
       // this.products = this.getProductList();
@@ -67,6 +87,7 @@ export class ProductListComponent {
           'imageUrl': 'https://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png'
         }
       ];
+      this.filteredProducts = this.filter(this.listFilter);
     }
 
     toggleImage(): void {
@@ -84,4 +105,11 @@ export class ProductListComponent {
 
       return result;
     }
-}
+
+    ngOnInit(): void {
+      console.log('OnInit');
+    }
+    ngOnDestroy(): void {
+      console.log('OnDestroy');
+    }
+  }
