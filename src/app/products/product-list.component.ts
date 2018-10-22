@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Product } from './product';
 import { ProductService } from './product.service';
-import { toTypeScript } from '@angular/compiler';
 
 @Component({
     selector: 'pm-products',
@@ -18,6 +17,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   filteredProducts: Product[];
 
   private _listFilter: string;
+  private _errorMessage: any;
+
   get listFilter() {
     return this._listFilter;
   }
@@ -50,8 +51,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log('OnInit');
     // OnInit provides the best place to retrieve the data and initialize the component
-    this.products = this._productService.getProducts();
-    this.filteredProducts = this.filter(this.listFilter);
+    this._productService.getProducts().subscribe(
+      products => {
+        this.products = products;
+        this.filteredProducts = this.filter(this.listFilter);
+      },
+      error => this._errorMessage = error
+    );
   }
   ngOnDestroy(): void {
     console.log('OnDestroy');
