@@ -33,6 +33,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
       );
     }
 
+    onRatingClicked(message: string): void {
+      this.pageTitle = 'Product List: ' + message;
+      console.log(message);
+    }
+
     constructor() {
       // this.products = this.getProductList();
       this.products = [
