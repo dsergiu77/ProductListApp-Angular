@@ -1,7 +1,7 @@
 import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-    selector: 'pm-star',
+    selector: 'pm-star', // selector is only needed if the component is embedded as directive in another view 
     templateUrl: './star.component.html',
     styleUrls: ['./star.component.css']
 })
